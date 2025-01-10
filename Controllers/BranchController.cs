@@ -9,5 +9,9 @@ namespace SchoolmanagementProject.Controllers
         {
             return View();
         }
+        public IActionResult branch2()
+        {
+            return View();
+        }
     }
 }
