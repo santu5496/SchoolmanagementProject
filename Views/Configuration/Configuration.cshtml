@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Tabs with DataTable</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            overflow: hidden;
+        }
+
+        #TabDiv {
+            background-color: rebeccapurple;
+            margin: 0;
+            padding: 10px;
+            position: relative;
+            width: 123%;
+            top: 0%;
+            height: 93.7%;
+            position: absolute;
+        }
+
+        .tab {
+            color: white;
+        }
+
+        .tab-content {
+            height: auto;
+            padding: 10px;
+        }
+
+        #example {
+            margin-top: 10px;
+            width: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div id="TabDiv">
+
+            <div role="tabpanel">
+                <ul class="nav nav-tabs" role="tablist">
+                    <!-- Levels Tab -->
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#tabcontent1" role="tab" aria-selected="true" aria-controls="tab1">
+                            Section 1
+                        </a>
+                    </li>
+                    <!-- Tab 2 -->
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#tabcontent2" role="tab" aria-selected="false" aria-controls="tab2">
+                            Section 2
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <!-- Level1 Tab Content -->
+                    <div class="tab-pane fade show active" id="tabcontent1" role="tabpanel" aria-labelledby="tab1">
+                        <button type="button" id="addlevelbtn" class="btn btn-lg btn-light" data-bs-toggle="modal" data-bs-target="#AddLevelForm">Add Level</button>
+                        <table id="example" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mark</td>
+                                    <td>Smith</td>
+                                </tr>
+                                <tr>
+                                    <td>Hanamant</td>
+                                    <td>Patil</td>
+                                </tr>
+                                <tr>
+                                    <td>Jane</td>
+                                    <td>Doe</td>
+                                </tr>
+                                <tr>
+                                    <td>John</td>
+                                    <td>Doe</td>
+                                </tr>
+                                <tr>
+                                    <td>Mary</td>
+                                    <td>Jones</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="AddLevelForm" tabindex="-1" role="dialog" aria-labelledby="attendenceModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="LevelModal">Add Level</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="attendanceForm">
+                                        <div class="form-floating">
+                                            <input  id="leveltext" type="text" class="form-control" placeholder="Enter Level here">
+                                            <label for="text">Enter Level</label>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" onclick="SaveLevel()">Save </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Button -->
+                <!-- Tab 2 Content -->
+                <div class="tab-pane fade" id="tabcontent2" role="tabpanel" aria-labelledby="tab2">
+                    <h1>Tab 2 Content</h1>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <script>
+        function SaveLevel() {
+            var LavelName1 = $('#leveltext').val();
+                debugger
+
+                $.ajax({
+                url: '/Configuration/AddLevel',
+                    type: 'POST',
+                    data: { 
+                        LevelName: LavelName1
+                    },
+                    success: function (response) {
+                        if (response) {
+                            GetAttendanceData();
+
+                            if (attendanceId == null || attendanceId == 0) {
+                                alert('Successdata added succesfully');
+                            }
+                            else {
+                                alert('Successdata Updated succesfully');
+                            }
+
+
+                        $('#AddLevelForm').modal('hide');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
+                    }
+                });
+            
+        }
+
+    </script>
+</body>
+</html>
