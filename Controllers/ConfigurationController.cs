@@ -8,12 +8,12 @@ namespace SchoolmanagementProject.Controllers
     public class ConfigurationController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ILevelService _schoolService;
+        private readonly ILevelService _ilevelservice;
 
-        public ConfigurationController(ILogger<HomeController> logger, ISchoolService schoolService)
+        public ConfigurationController(ILogger<HomeController> logger, ILevelService _ilevelservice1)
         {
             _logger = logger;
-            _schoolService = schoolService;
+            _ilevelservice = _ilevelservice1;
         }
 
 
@@ -61,9 +61,28 @@ namespace SchoolmanagementProject.Controllers
 
         public IActionResult AddLevel(Levels levels)
         {
-            _schoolService.AddData1(levels);
+            if (levels == null)
+            {
+                return BadRequest("Level data cannot be null.");
+            }
 
-            return View();
+            if (_ilevelservice == null)
+            {
+                _logger.LogError("ILevelService is not initialized.");
+                return StatusCode(500, "Internal server error.");
+            }
+
+            try
+            {
+                _ilevelservice.AddData1(levels);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding level data.");
+                return StatusCode(500, "An error occurred while adding level data.");
+            }
         }
+
     }
 }
