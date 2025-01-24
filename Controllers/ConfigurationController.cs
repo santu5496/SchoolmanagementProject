@@ -74,7 +74,7 @@ namespace SchoolmanagementProject.Controllers
 
             try
             {
-                _ilevelservice.AddData1(levels);
+                _ilevelservice.AddDataLevel(levels);
                 return View();
             }
             catch (Exception ex)
